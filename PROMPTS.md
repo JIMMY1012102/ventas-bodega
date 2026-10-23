@@ -190,3 +190,43 @@ Conserva los demás requisitos, decisiones y contratos existentes.
 No generes código PHP ni SQL todavía.
 
 Explica qué secciones modificaste y cómo se cumplen las instrucciones P2 y P3 del examen.
+
+## Prompt 9 — Base de datos EPIA
+Actúa como diseñador de bases de datos MySQL/MariaDB.
+
+Lee D0.md, requirements.md y design.md.
+
+Genera exclusivamente estos archivos:
+1. database/schema.sql
+2. database/seed.sql
+3. .env.example
+4. .gitignore
+
+REQUISITOS OBLIGATORIOS:
+- Base de datos bodega_ventas con utf8mb4.
+- Motor InnoDB.
+- Tablas producto y venta conforme a design.md.
+- PRIMARY KEY, FOREIGN KEY y UNIQUE para codigo.
+- CHECK para precio >= 0, stock_actual >= 0, stock_minimo >= 0 y cantidad > 0.
+- ON DELETE RESTRICT.
+- Guardar precio_unitario, cantidad, total y fecha_hora de cada venta.
+- No incluir tablas adicionales.
+- No implementar autenticación ni roles.
+
+En seed.sql inserta exactamente estos 8 productos:
+P001 | Arroz superior 5 kg | Abarrotes | 22.50 | 20 | 5
+P002 | Azúcar rubia 1 kg | Abarrotes | 4.20 | 30 | 10
+P003 | Aceite vegetal 1 L | Abarrotes | 9.90 | 12 | 4
+P004 | Leche evaporada 400 g | Lácteos | 4.00 | 48 | 12
+P005 | Fideo spaghetti 500 g | Abarrotes | 3.50 | 25 | 8
+P006 | Atún en trozos 170 g | Conservas | 6.50 | 3 | 6
+P007 | Gaseosa 1.5 L | Bebidas | 7.00 | 18 | 6
+P008 | Detergente 1 kg | Limpieza | 11.80 | 2 | 4
+
+.env.example debe contener DB_HOST, DB_NAME, DB_USER y DB_PASS sin contraseñas sensibles.
+.gitignore debe excluir .env.
+
+Aplica KISS y respeta exactamente EPIA.
+Genera solamente los archivos de esta fase. No implementes código PHP ni ejecutes tasks.md.
+
+Explícame cómo importar schema.sql y seed.sql en phpMyAdmin y cómo verificar que SELECT COUNT(*) FROM producto devuelva 8.
