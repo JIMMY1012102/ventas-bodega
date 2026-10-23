@@ -32,6 +32,37 @@ Un minimarket de San Vicente de Cañete registra sus ventas manualmente y no con
 - Genera únicamente D0.md; todavía no implementes código.
 - Explica brevemente la estructura del documento para que pueda revisarlo y corregirlo.
 
+## Prompt 2 — Primera corrección de D0.md
+
+Revisa y corrige únicamente D0.md, respetando la guía del examen EPIA y aplicando KISS.
+
+He identificado estas observaciones:
+
+1. Cambia "encargado de tienda" por "cajero", porque es el usuario indicado en el caso.
+2. En RF3, especifica que el sistema toma el precio de venta vigente, calcula el total, registra fecha y hora y descuenta el stock.
+3. En RNF1, elimina la referencia al almacenamiento de contraseñas y hashing porque la autenticación está fuera del alcance. Mantén seguridad de entradas, consultas y salidas.
+4. En SUPUESTO 5, elimina la funcionalidad adicional de modificar posteriormente el stock mínimo.
+5. Corrige "reaches" por "alcanza" y aclara que las operaciones básicas del sistema local no requieren internet.
+
+Conserva RF1–RF4, RNF1–RNF3, RN1–RN5 y la tabla de trazabilidad.
+
+No agregues funcionalidades adicionales ni generes código.
+
+Al terminar, explica qué modificaste y por qué.
+
+---
+
+## Prompt 3 — Ajustes finales de seguridad y redacción
+
+Realiza únicamente estos ajustes finales en D0.md:
+
+1. En RNF1, reemplaza la indicación de sanitizar consultas por el uso de PDO con sentencias preparadas para prevenir inyección SQL, y htmlspecialchars para escapar la salida HTML y reducir riesgos de XSS.
+2. Corrige "un alerta" por "una alerta".
+
+No modifiques otros requisitos, reglas de negocio, supuestos ni la trazabilidad. No generes código.
+
+
+
 ## Prompt 4 — Corrección de trazabilidad
 Actúa como analista de sistemas y revisa únicamente la tabla de trazabilidad de D0.md.
 
@@ -44,3 +75,118 @@ Corrige exclusivamente la fila de RF3 para que quede así:
 Aplica el principio KISS. No modifiques otras secciones, requisitos ni reglas de negocio.
 
 No generes código. Explica brevemente la corrección realizada.
+
+## Prompt 5 — Especificación y diseño
+Actúa como analista y arquitecto de software. Lee D0.md y elabora la especificación técnica del proyecto Minimarket La Esquina, aplicando KISS y respetando el alcance del examen EPIA.
+
+Genera dos documentos en la raíz del proyecto:
+
+1. requirements.md:
+- RF1 a RF4 y requisitos no funcionales identificados.
+- Criterios de aceptación en formato EARS: "CUANDO ... EL SISTEMA DEBERÁ ...".
+- Trazabilidad de RN1 a RN5, sin omitir ninguna regla.
+- Casos de rechazo: cantidad no positiva, stock insuficiente, precio negativo y código duplicado.
+- No agregues funcionalidades fuera del alcance.
+
+2. design.md:
+- PHP 8 orientado a objetos, sin frameworks.
+- MySQL/MariaDB con PDO y sentencias preparadas.
+- Arquitectura Model → Repository → Service → Controller → Views.
+- Explica qué hace y qué NO debe hacer cada capa.
+- Tablas producto y venta con campos, tipos, claves y restricciones.
+- Contratos de clases y métodos con firmas tipadas.
+- Flujo de registro de venta con beginTransaction, commit y rollBack.
+- Manejo de errores y excepciones propias.
+- Variables de conexión almacenadas en .env.
+- Controles de seguridad CSRF y escape HTML.
+
+Mantén ambas especificaciones coherentes con D0.md.
+
+Primero explica las decisiones de arquitectura. Luego genera únicamente los documentos de especificación, sin implementar código PHP ni SQL.
+
+Si se genera tasks.md, no ejecutes ninguna tarea. La implementación corresponde a VS Code.
+
+Al finalizar, identifica posibles inconsistencias para que yo las revise y decida las correcciones.
+
+## Prompt 6 — Revisión de especificación
+He revisado las siete observaciones de requirements.md y design.md siguiendo la guía EPIA y el principio KISS.
+
+Estas son mis decisiones:
+
+1. Mantener la validación RN3 también en RF3, porque el examen exige una prueba que rechace productos con precio negativo.
+2. Mantener CA-RF1-04 para impedir stock negativo y relacionarlo con RNF2 (integridad de datos), sin agregar RN6.
+3. No implementar edición ni eliminación de productos. Documentar explícitamente esta limitación para respetar el alcance.
+4. Mantener precio_unitario y total en la tabla venta para conservar los importes registrados.
+5. Mantener CSRF mediante sesiones PHP, porque es obligatorio en el Prompt P2 del examen.
+6. Mantener ON DELETE RESTRICT para proteger la integridad referencial.
+7. Mantener listar() y listarConStockBajo(), porque la prueba 6 del examen exige devolver únicamente los productos cuyo stock esté en o por debajo del mínimo.
+
+Aplica únicamente las correcciones documentales necesarias en requirements.md y design.md.
+
+Verifica:
+- Criterios EARS para RF1–RF4 y RNF.
+- Trazabilidad completa de RN1–RN5.
+- Arquitectura Model, Repository, Service, Controller y Views.
+- PHP 8 orientado a objetos, sin frameworks.
+- PDO preparado y transacciones atómicas.
+- Contratos con firmas tipadas.
+- Manejo de errores y excepciones.
+- Coherencia con D0.md y las seis pruebas obligatorias del examen.
+
+No generes código PHP ni SQL. No ejecutes tareas de Kiro.
+
+Al terminar, indica exactamente qué archivos y secciones modificaste para registrar mis correcciones en REGISTRO.md.
+
+## Prompt 7 — Corrección de diseño según EPIA
+Revisa requirements.md y design.md conforme a la guía EPIA. He identificado cuatro inconsistencias que debes corregir aplicando KISS.
+
+1. ESTRUCTURA:
+Alinea design.md con la estructura exigida por el Prompt P2 del examen: config/database.php, app/Models, app/Repositories, app/Services, app/Exceptions, app/Controllers, views, public/index.php y tests/run.php. Incluye únicamente archivos auxiliares indispensables. Actualiza el enrutamiento y el recorrido de una venta.
+
+2. BASE DE DATOS:
+Corrige DB_NAME a bodega_ventas y especifica utf8mb4, motor InnoDB, database/schema.sql y database/seed.sql.
+
+3. PRUEBAS:
+Asegura que ProductoService y VentaService puedan probarse con repositorios falsos en memoria, sin conexión MySQL, PHPUnit ni Composer. Define contratos mínimos tipados para las dependencias, sin agregar patrones innecesarios. Considera las seis pruebas obligatorias: venta válida, cantidad no positiva, stock insuficiente sin cambios, producto inexistente, precio negativo y stock bajo.
+
+4. TRANSACCIONES:
+Precisa que la venta y el descuento de stock compartan la misma transacción PDO. Debe comprobarse el resultado del descuento y ejecutarse rollBack ante cualquier error, incluidos errores de infraestructura. Contempla el rechazo de productos inexistentes y la protección contra ventas concurrentes con stock insuficiente.
+
+Conserva PHP 8 orientado a objetos, PDO preparado, strict_types, PHPDoc en español, excepciones propias, CSRF y salida escapada.
+
+No agregues autenticación, roles, clientes ni funcionalidades fuera de alcance.
+
+Modifica únicamente requirements.md y design.md. No generes todavía código PHP ni SQL.
+
+Al finalizar, enumera las secciones corregidas y explica cada decisión para registrarla en REGISTRO.md.
+
+## Prompt 8 — Corrección final de diseño
+Revisa únicamente requirements.md y design.md.
+
+Detecté dos inconsistencias con la guía oficial EPIA que debemos corregir antes de implementar.
+
+1. CONFIGURACIÓN:
+Conserva config/database.php como responsable de crear la conexión PDO, pero las credenciales deben provenir exclusivamente de variables cargadas desde .env.
+
+El proyecto debe incluir .env.example con DB_HOST, DB_NAME, DB_USER y DB_PASS, sin credenciales sensibles.
+
+.env debe permanecer fuera de GitHub mediante .gitignore.
+
+No escribas credenciales reales directamente en config/database.php.
+
+2. PRUEBAS:
+Elimina la dependencia de PDO('sqlite::memory:') en las pruebas unitarias.
+
+Los seis casos de tests/run.php deben poder ejecutarse sin MySQL, SQLite ni otro motor de base de datos.
+
+Conserva las interfaces de repositorios y define una abstracción mínima para gestionar transacciones que permita utilizar PDO en producción y un doble de prueba en memoria en los tests.
+
+El Service debe seguir siendo responsable de iniciar, confirmar y revertir las transacciones.
+
+Aplica KISS: no añadas frameworks, Composer ni abstracciones que no sean necesarias.
+
+Conserva los demás requisitos, decisiones y contratos existentes.
+
+No generes código PHP ni SQL todavía.
+
+Explica qué secciones modificaste y cómo se cumplen las instrucciones P2 y P3 del examen.
