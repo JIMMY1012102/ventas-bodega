@@ -1,0 +1,7 @@
+[OK] P1 Venta válida
+[OK] P2 Cantidad no positiva
+[OK] P3 Stock insuficiente sin cambios
+[OK] P4 Producto inexistente
+[OK] P5 Precio negativo
+[OK] P6 Stock bajo
+6/6 pruebas aprobadas

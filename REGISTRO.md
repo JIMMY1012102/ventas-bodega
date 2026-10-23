@@ -8,3 +8,4 @@
 | Fase 1 | Trazabilidad incompleta | Solicité incorporar RN3 a RF3 y verifiqué el cambio | Mantener coherencia entre requisitos y reglas |
 | Fase 2 | requirements.md con trazabilidad incompleta | Relacioné CA-RF1-04 con RNF2 y excluí la edición de productos | Mantener coherencia y aplicar KISS |
 | Fase 2 | design.md con estructura y configuración inconsistentes | Corregí las carpetas, el nombre de BD y la configuración .env; adapté las pruebas para usar repositorios falsos | Cumplir la guía EPIA |
+| Fase 3 | schema.sql y seed.sql con las tablas y ocho productos | Verifiqué en phpMyAdmin que la consulta COUNT(*) devuelve 8 | Comprobar que los datos iniciales se importaron correctamente |

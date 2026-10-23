@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "EPIA: pruebas unitarias",
+			"type": "shell",
+			"command": "php tests/run.php",
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}
